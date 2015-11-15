@@ -1,7 +1,7 @@
-<section ng-show="authorizationService.authorized">
+<section ng-show="authorizationService.authorized === true">
   <h1>You are authorized!</h1>
 </section>
-<section ng-hide="authorizationService.authorized">
+<section ng-show="authorizationService.authorized === false">
   <h1>You are not authorized.</h1>
   <input type="button" value="Authorize" ng-click="authorizationService.authorize()">
   <hr>

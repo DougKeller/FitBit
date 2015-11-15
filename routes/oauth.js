@@ -35,9 +35,9 @@ router.get('/authenticated', function(req, res) {
       var token = oauth2.accessToken.create(result)
       if(token) {
         req.session.token = token
-        res.status(200).send('Authenticated')
+        res.status(200).render('authenticated')
       } else {
-        res.status(500).send('Authentication Failed')
+        res.status(500).render('authenticated')
       }
     }
   }
