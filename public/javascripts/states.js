@@ -7,7 +7,7 @@ angular.module('fitbit').constant('States', (function() {
     main: new State({
       url: '/',
       controller: 'MainController',
-      templateUrl: 'testing.html'
+      templateUrl: 'general.html'
     })
   }
 })())
