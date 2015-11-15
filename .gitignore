@@ -73,3 +73,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+public/application.js
+public/vendor.js
+public/style.css
