@@ -55,14 +55,43 @@ angular.module('fitbit').constant('States', (function() {
   }
 })())
 
-angular.module('fitbit.controllers').controller('MainController', ['$scope', '$http', '$location',
-  function($scope, $http, $location) {
+angular.module('fitbit.controllers').controller('MainController', ['$scope', 'AuthorizationService',
+  function($scope, AuthorizationService) {
+    $scope.authorizationService = AuthorizationService
+  }
+])
 
-    $scope.authorize = function() {
-      var path = Routes.authorize + '?url=' + encodeURIComponent(window.location.href.split('#')[0])
-      $http.get(path).then(function(response) {
-        window.location.href = response.data
-      })
+angular.module('fitbit.services').service('AuthorizationService', ['$http',
+  function($http) {
+    var $ = this
+
+    function setAuthorized() {
+      $.authorized = true
     }
+
+    function setNotAuthorized() {
+      $.authorized = false
+    }
+
+    function redirect(response) {
+      if(response.status === 302) {
+        $.authorized = false
+        window.location.href = response.data
+      }
+    }
+
+    function authorizationPath() {
+      return Routes.authorize + '?url=' + encodeURIComponent(window.location.href.split('#')[0])
+    }
+
+    this.authorize = function() {
+      $http.get(authorizationPath()).then(setAuthorized, redirect)
+    }
+
+    this.checkAuthorized = function() {
+      $http.get(authorizationPath()).then(setAuthorized, setNotAuthorized)
+    }
+
+    this.checkAuthorized()
   }
 ])

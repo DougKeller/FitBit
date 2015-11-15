@@ -14,9 +14,9 @@ function authUri(root) {
 
 router.get('/authorize', function(req, res) {
   if(req.session.token) {
-    res.json(req.session.token)
+    res.status(200).send('Authenticated')
   } else {
-    res.json(authUri(req.query.url))
+    res.status(302).json(authUri(req.query.url))
   }
 });
 
