@@ -1,0 +1,3 @@
+var Routes = {
+  authorize: 'authorize'
+}

@@ -1,12 +1,9 @@
-angular.module('fitbit.controllers').controller('MainController', ['$scope', '$http',
-  function($scope, $http) {
+angular.module('fitbit.controllers').controller('MainController', ['$scope', '$http', '$location',
+  function($scope, $http, $location) {
 
     $scope.authorize = function() {
-      $http.get('api/authorize').then(function(response) {
-        console.log(response.data)
-      },  function(response) {
-        console.log('ERROR')
-        console.log(response.data)
+      $http.get(Routes.authorize).then(function(response) {
+        window.location.href = response.data
       })
     }
   }

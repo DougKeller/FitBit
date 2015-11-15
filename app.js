@@ -12,7 +12,7 @@ var http = require('http');
 var path = require('path');
 
 var routes = require('./routes/index');
-var apiRoute = require('./routes/api');
+var oauthRoute = require('./routes/oauth');
 
 var app = module.exports = express();
 
@@ -57,7 +57,7 @@ if (env === 'production') {
  */
 
  app.use('/', routes);
- app.use('/api', apiRoute);
+ app.use('/', oauthRoute);
 
 /**
  * Start Server

@@ -15,9 +15,11 @@
     "method-override": "^2.3.5",
     "morgan": "^1.6.1",
     "nodemon": "^1.8.1",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "simple-oauth2": "git://github.com/DougKeller/simple-oauth2.git"
   },
   "devDependencies": {
+    "bluebird": "^3.0.5",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-nodemon": "^2.0.4",
