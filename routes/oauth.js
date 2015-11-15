@@ -1,23 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-var constants = require('../config/oauth');
+var data = require('../config/oauth');
 var port = process.env.PORT || 3000
 
-function oauth2() {
-  return require('simple-oauth2')({
-    clientID: constants.clientId,
-    clientSecret: constants.secret,
-    site: constants.site,
-    tokenPath: constants.tokenPath,
-    authorizationPath: constants.authorizePath
-  })
-}
-
+var oauth2 =  require('simple-oauth2')(data.credentials)
 function authUri(root) {
-  return oauth2().authCode.authorizeURL({
+  return oauth2.authCode.authorizeURL({
     redirect_uri: root + 'authenticated',
-    scope: constants.scope
+    scope: data.scope
   })
 }
 
@@ -31,18 +22,23 @@ router.get('/authorize', function(req, res) {
 
 router.get('/authenticated', function(req, res) {
   var code = req.query.code
-  oauth2().authCode.getToken({
+  oauth2.authCode.getToken({
     code: code,
     redirect_uri: 'http://127.0.0.1:' + port + '/authenticated'
   }, saveToken)
 
   function saveToken(error, result) {
-    if(error || !result) {
+    if(error) {
       console.log('Access Token Error', error.message)
-      res.status(500).send('Access Token Error')
+      res.status(500).json(error.message)
     } else {
-      req.session.token = oauth2.accessToken.create(result)
-      res.json(req.session.token)
+      var token = oauth2.accessToken.create(result)
+      if(token) {
+        req.session.token = token
+        res.status(200).send('Authenticated')
+      } else {
+        res.status(500).send('Authentication Failed')
+      }
     }
   }
 })

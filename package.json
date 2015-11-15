@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "body-parser": "^1.14.1",
-    "client-oauth2": "^1.0.0",
     "express": "^4.13.3",
     "express-session": "^1.12.1",
     "jade": "^1.11.0",
@@ -22,7 +21,7 @@
     "simple-oauth2": "git://github.com/DougKeller/simple-oauth2.git"
   },
   "devDependencies": {
-    "bluebird": "^3.0.5",
+    "bluebird": "^2.10.2",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-if": "^2.0.0",
