@@ -1,0 +1,26 @@
+{
+  "name": "fitbit",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "gulp merge"
+  },
+  "author": {
+    "name": "Doug Keller"
+  },
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
+    "method-override": "^2.3.5",
+    "morgan": "^1.6.1",
+    "nodemon": "^1.8.1",
+    "serve-favicon": "^2.3.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-nodemon": "^2.0.4",
+    "gulp-uglify": "^1.5.1"
+  }
+}
