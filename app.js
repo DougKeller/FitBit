@@ -10,6 +10,7 @@ var logger = require('morgan');
 var favicon = require('serve-favicon');
 var http = require('http');
 var path = require('path');
+var session = require('express-session');
 
 var routes = require('./routes/index');
 var oauthRoute = require('./routes/oauth');
@@ -31,6 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({ resave: false, saveUninitialized: false, secret: 'fitbit session' }));
 
 app.set('port', process.env.PORT || 3000);
 

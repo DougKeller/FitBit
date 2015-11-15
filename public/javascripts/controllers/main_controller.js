@@ -2,7 +2,8 @@ angular.module('fitbit.controllers').controller('MainController', ['$scope', '$h
   function($scope, $http, $location) {
 
     $scope.authorize = function() {
-      $http.get(Routes.authorize).then(function(response) {
+      var path = Routes.authorize + '?url=' + encodeURIComponent(window.location.href.split('#')[0])
+      $http.get(path).then(function(response) {
         window.location.href = response.data
       })
     }

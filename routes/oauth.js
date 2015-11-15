@@ -4,26 +4,34 @@ var router = express.Router();
 var constants = require('../config/oauth');
 var port = process.env.PORT || 3000
 
-var oauth2 = require('simple-oauth2')({
-  clientID: constants.clientId,
-  clientSecret: constants.secret,
-  site: constants.site,
-  tokenPath: constants.tokenPath,
-  authorizationPath: constants.authorizePath
-})
+function oauth2() {
+  return require('simple-oauth2')({
+    clientID: constants.clientId,
+    clientSecret: constants.secret,
+    site: constants.site,
+    tokenPath: constants.tokenPath,
+    authorizationPath: constants.authorizePath
+  })
+}
 
-var authorizationUri = oauth2.authCode.authorizeURL({
-  redirect_uri: 'http://127.0.0.1:' + port + '/authenticated',
-  scope: constants.scope
-})
+function authUri(root) {
+  return oauth2().authCode.authorizeURL({
+    redirect_uri: root + 'authenticated',
+    scope: constants.scope
+  })
+}
 
 router.get('/authorize', function(req, res) {
-  res.json(authorizationUri)
+  if(req.session.token) {
+    res.json(req.session.token)
+  } else {
+    res.json(authUri(req.query.url))
+  }
 });
 
 router.get('/authenticated', function(req, res) {
   var code = req.query.code
-  oauth2.authCode.getToken({
+  oauth2().authCode.getToken({
     code: code,
     redirect_uri: 'http://127.0.0.1:' + port + '/authenticated'
   }, saveToken)
@@ -33,8 +41,8 @@ router.get('/authenticated', function(req, res) {
       console.log('Access Token Error', error.message)
       res.status(500).send('Access Token Error')
     } else {
-      token = oauth2.accessToken.create(result)
-      res.json(token)
+      req.session.token = oauth2.accessToken.create(result)
+      res.json(req.session.token)
     }
   }
 })
