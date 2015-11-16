@@ -1,3 +1,4 @@
 var Routes = {
-  authorize: 'authorize'
+  authorize: 'authorize',
+  heartrateSeries: 'heartrate/series'
 }

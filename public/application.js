@@ -38,7 +38,8 @@ angular.module('fitbit').config(['$stateProvider', '$urlRouterProvider', 'States
 ]);
 
 var Routes = {
-  authorize: 'authorize'
+  authorize: 'authorize',
+  heartrateSeries: 'heartrate/series'
 }
 
 angular.module('fitbit').constant('States', (function() {
@@ -55,8 +56,8 @@ angular.module('fitbit').constant('States', (function() {
   }
 })())
 
-angular.module('fitbit.controllers').controller('MainController', ['$scope', 'AuthorizationService',
-  function($scope, AuthorizationService) {
+angular.module('fitbit.controllers').controller('MainController', ['$scope', '$http', 'AuthorizationService',
+  function($scope, $http, AuthorizationService) {
     $scope.authorizationService = AuthorizationService
   }
 ])

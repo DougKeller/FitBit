@@ -14,6 +14,7 @@ var session = require('express-session');
 
 var routes = require('./routes/index');
 var oauthRoute = require('./routes/oauth');
+var heartrate = require('./routes/heartrate');
 
 var app = module.exports = express();
 
@@ -60,6 +61,7 @@ if (env === 'production') {
 
  app.use('/', routes);
  app.use('/', oauthRoute);
+ app.use('/heartrate', heartrate);
 
 /**
  * Start Server
