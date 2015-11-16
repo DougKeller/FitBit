@@ -23,6 +23,18 @@
   padding: 10px 30px 10px 30px;
 }
 
+.unauthorized {
+  padding-top: 75px;
+  text-align: center;
+  margin: auto;
+}
+
+.authorized {
+  padding-top: 75px;
+  text-align: center;
+  margin: auto;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -65,11 +77,12 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: normal;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
 }
 
 h1 {
-  margin: 5px;
+  margin: 10px;
 }
 
 hr {

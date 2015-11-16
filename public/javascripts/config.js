@@ -1,6 +1,8 @@
-angular.module('fitbit').config(['$stateProvider', '$urlRouterProvider', 'States',
-  function($stateProvider, $urlRouterProvider, States) {
+angular.module('fitbit').config(['$stateProvider', '$urlRouterProvider', '$httpProvider', 'States',
+  function($stateProvider, $urlRouterProvider, $httpProvider, States) {
     $urlRouterProvider.otherwise('/')
+
+    $httpProvider.interceptors.push('authorizationInterceptor')
 
     function loadStates(states, parent) {
       angular.forEach(states, function(state, key) {
@@ -25,3 +27,15 @@ angular.module('fitbit').config(['$stateProvider', '$urlRouterProvider', 'States
     loadStates(States)
   }
 ]);
+
+angular.module('fitbit').run(['$rootScope', '$state', 'AuthorizationService',
+  function($rootScope, $state, AuthorizationService) {
+    $rootScope.$on('unauthorized', function() {
+      $state.go('unauthorized')
+    })
+
+    $rootScope.$on('authorized', function() {
+      $state.go('authorized')
+    })
+  }
+])

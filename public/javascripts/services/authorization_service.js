@@ -1,13 +1,15 @@
-angular.module('fitbit.services').service('AuthorizationService', ['$http',
-  function($http) {
+angular.module('fitbit.services').service('AuthorizationService', ['$http', '$rootScope',
+  function($http, $rootScope) {
     var $ = this
 
     function setAuthorized() {
       $.authorized = true
+      $rootScope.$broadcast('authorized')
     }
 
     function setNotAuthorized() {
       $.authorized = false
+      $rootScope.$broadcast('unauthorized')
     }
 
     function redirect(response) {

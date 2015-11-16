@@ -1,17 +1,21 @@
 'use strict';
 
 angular.module('fitbit.controllers', [])
+angular.module('fitbit.factories', [])
 angular.module('fitbit.services', [])
 
 angular.module('fitbit', [
   'fitbit.controllers',
+  'fitbit.factories',
   'fitbit.services',
   'ui.router'
 ])
 
-angular.module('fitbit').config(['$stateProvider', '$urlRouterProvider', 'States',
-  function($stateProvider, $urlRouterProvider, States) {
+angular.module('fitbit').config(['$stateProvider', '$urlRouterProvider', '$httpProvider', 'States',
+  function($stateProvider, $urlRouterProvider, $httpProvider, States) {
     $urlRouterProvider.otherwise('/')
+
+    $httpProvider.interceptors.push('authorizationInterceptor')
 
     function loadStates(states, parent) {
       angular.forEach(states, function(state, key) {
@@ -37,6 +41,17 @@ angular.module('fitbit').config(['$stateProvider', '$urlRouterProvider', 'States
   }
 ]);
 
+angular.module('fitbit').run(['$rootScope', '$state', 'AuthorizationService',
+  function($rootScope, $state, AuthorizationService) {
+    $rootScope.$on('unauthorized', function() {
+      $state.go('unauthorized')
+    })
+
+    $rootScope.$on('authorized', function() {
+      $state.go('authorized')
+    })
+  }
+])
 var Routes = {
   authorize: 'authorize',
   heartrateSeries: 'heartrate/series'
@@ -48,38 +63,65 @@ angular.module('fitbit').constant('States', (function() {
   }
 
   return {
-    main: new State({
+    authorized: new State({
       url: '/',
       controller: 'MainController',
-      templateUrl: 'general.html'
+      templateUrl: 'general.html',
+      onEnter: ['$state', 'AuthorizationService', function($state, AuthorizationService) {
+        if(!AuthorizationService.authorized) {
+          $state.go('unauthorized')
+        }
+      }]
+    }),
+    unauthorized: new State({
+      url: '/unauthorized',
+      controller: 'UnauthorizedController',
+      templateUrl: 'unauthorized.html',
+      onEnter: ['$state', 'AuthorizationService', function($state, AuthorizationService) {
+        if(AuthorizationService.authorized) {
+          $state.go('authorized')
+        }
+      }]
     })
   }
 })())
 
-angular.module('fitbit.controllers').controller('MainController', ['$scope', '$http', 'AuthorizationService',
-  function($scope, $http, AuthorizationService) {
-    $scope.authorizationService = AuthorizationService
-
+angular.module('fitbit.controllers').controller('MainController', ['$scope', '$http',
+  function($scope, $http) {
     $scope.heartRate = function() {
-    	$http.get(Routes.heartrateSeries).then(function(response) {
-    		console.log('SUCCESS', response)
-    	}, function(response) {
-    		console.log('ERROR', response)
-    	})
+      $http.get(Routes.heartrateSeries).then(function(response) {})
     }
   }
 ])
 
-angular.module('fitbit.services').service('AuthorizationService', ['$http',
-  function($http) {
+angular.module('fitbit.controllers').controller('UnauthorizedController', ['$scope', 'AuthorizationService',
+  function($scope, AuthorizationService) {
+  	$scope.authorizationService = AuthorizationService
+  }
+])
+angular.module('fitbit.factories').factory('authorizationInterceptor', ['$rootScope', '$q', function($rootScope, $q) {
+	return {
+		responseError: function(response) {
+			if(response.status === 401) {
+				$rootScope.$broadcast('unauthorized')
+			}
+
+			return $q.reject(response)
+		}
+	}
+}])
+angular.module('fitbit.services').service('AuthorizationService', ['$http', '$rootScope',
+  function($http, $rootScope) {
     var $ = this
 
     function setAuthorized() {
       $.authorized = true
+      $rootScope.$broadcast('authorized')
     }
 
     function setNotAuthorized() {
       $.authorized = false
+      $rootScope.$broadcast('unauthorized')
     }
 
     function redirect(response) {

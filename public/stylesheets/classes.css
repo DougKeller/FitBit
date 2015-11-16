@@ -20,3 +20,15 @@
   height: 100px;
   padding: 10px 30px 10px 30px;
 }
+
+.unauthorized {
+  padding-top: 75px;
+  text-align: center;
+  margin: auto;
+}
+
+.authorized {
+  padding-top: 75px;
+  text-align: center;
+  margin: auto;
+}

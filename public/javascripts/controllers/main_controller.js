@@ -1,13 +1,7 @@
-angular.module('fitbit.controllers').controller('MainController', ['$scope', '$http', 'AuthorizationService',
-  function($scope, $http, AuthorizationService) {
-    $scope.authorizationService = AuthorizationService
-
+angular.module('fitbit.controllers').controller('MainController', ['$scope', '$http',
+  function($scope, $http) {
     $scope.heartRate = function() {
-    	$http.get(Routes.heartrateSeries).then(function(response) {
-    		console.log('SUCCESS', response)
-    	}, function(response) {
-    		console.log('ERROR', response)
-    	})
+      $http.get(Routes.heartrateSeries).then(function(response) {})
     }
   }
 ])
