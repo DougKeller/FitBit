@@ -1,13 +1,9 @@
 var router = require('express').Router();
-var token = require('../resources/access_token');
+var api = require('../resources/api')
 
 router.get('/series', function(req, res) {
-	var accessToken = token(req.session)
-	if(!accessToken) {
-		res.status(401).json('unauthorized')
-	} else {
-		res.json(accessToken)
-	}
+	var url = 'https://api.fitbit.com/1/user/-/activities/heart/date/today/1d.json'
+	api.get(url, req, res)
 })
 
 module.exports = router;
