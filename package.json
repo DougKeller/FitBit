@@ -1,6 +1,6 @@
 {
   "name": "fitbit",
-  "version": "0.0.0",
+  "version": "0.0.9",
   "private": true,
   "scripts": {
     "start": "gulp build && node app.js",
@@ -8,6 +8,10 @@
   },
   "author": {
     "name": "Doug Keller"
+  },
+  "engines": {
+    "node": "4.1.1",
+    "npm": "3.3.5"
   },
   "dependencies": {
     "body-parser": "^1.14.1",
