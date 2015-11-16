@@ -50,6 +50,11 @@ if (env === 'development') {
   });
 }
 
+// heroku deployment
+if (env === 'heroku') {
+
+}
+
 // production only
 if (env === 'production') {
   // TODO

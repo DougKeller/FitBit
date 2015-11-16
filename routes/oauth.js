@@ -3,7 +3,9 @@ var router = express.Router();
 
 var data = require('../config/oauth');
 var accessToken = require('../resources/access_token')
+
 var port = process.env.PORT || 3000
+var rootUrl = process.env.ROOT_URL || ('http://127.0.0.1:' + port)
 
 var oauth2 = require('simple-oauth2')(data.credentials);
 function authUri(root) {
@@ -25,7 +27,7 @@ router.get('/authenticated', function(req, res) {
   var code = req.query.code
   oauth2.authCode.getToken({
     code: code,
-    redirect_uri: 'http://127.0.0.1:' + port + '/authenticated' // Redirected to by client browser
+    redirect_uri: rootUrl + '/authenticated' // Redirected to by client browser
   }, saveToken)
 
   function saveToken(error, result) {
