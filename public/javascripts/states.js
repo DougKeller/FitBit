@@ -4,15 +4,20 @@ angular.module('fitbit').constant('States', (function() {
   }
 
   return {
-    authorized: new State({
+    menu: new State({
       url: '/',
-      controller: 'MainController',
-      templateUrl: 'general.html',
+      controller: 'MenuController',
+      templateUrl: 'menu.html',
       onEnter: ['$state', 'AuthorizationService', function($state, AuthorizationService) {
         if(!AuthorizationService.authorized) {
           $state.go('unauthorized')
         }
       }]
+    }),
+    heartrate: new State({
+      url: '/heartrate',
+      controller: 'HeartrateController',
+      templateUrl: 'heartrate.html'
     }),
     unauthorized: new State({
       url: '/unauthorized',

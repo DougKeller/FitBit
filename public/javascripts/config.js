@@ -8,19 +8,17 @@ angular.module('fitbit').config(['$stateProvider', '$urlRouterProvider', '$httpP
       angular.forEach(states, function(state, key) {
         state.parent = parent
 
-        if(state.parent) {
+        if(state.parent)
           state.name = parent + '.' + key
-        } else {
+        else
           state.name = key
-        }
 
         state.templateUrl = 'templates/' + state.templateUrl
 
         $stateProvider.state(state.name, state)
 
-        if(state.children) {
+        if(state.children)
           loadStates(state.children, state.name)
-        }
       })
     }
 
@@ -31,11 +29,19 @@ angular.module('fitbit').config(['$stateProvider', '$urlRouterProvider', '$httpP
 angular.module('fitbit').run(['$rootScope', '$state', 'AuthorizationService',
   function($rootScope, $state, AuthorizationService) {
     $rootScope.$on('unauthorized', function() {
-      $state.go('unauthorized')
+      if($state.current.name !== 'unauthorized')
+        $state.go('unauthorized')
     })
 
     $rootScope.$on('authorized', function() {
-      $state.go('authorized')
+      if($state.current.name === 'unauthorized')
+        $state.go('menu')
+    })
+
+    $rootScope.$on('$stateChangeStart', function(_evt, toState) {
+      window.scrollTo(0, 0)
+      if(toState.name !== 'unauthorized' && !AuthorizationService.authorized)
+        $state.go('unauthorized')
     })
   }
 ])

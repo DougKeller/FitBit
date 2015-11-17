@@ -1,0 +1,23 @@
+a {
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #44aaff;
+  font-size: 0.8em;
+}
+
+a:link {
+
+}
+
+a:visited {
+
+}
+
+a:hover {
+  color: #aaa;
+  cursor: pointer;
+}
+
+a:active {
+
+}

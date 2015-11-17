@@ -12,6 +12,7 @@ input[type=button] {
   font-weight: 300;
   color: #ffffff;
   font-size: 17px;
+  min-width: 150px;
   padding: 10px 20px 10px 20px;
   text-decoration: none;
 }
@@ -24,4 +25,5 @@ input[type=button]:hover {
   background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
   background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
   text-decoration: none;
+  cursor: pointer;
 }

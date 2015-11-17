@@ -1,0 +1,30 @@
+<div class="header">
+  <h2>Heartrate</h2> <a ui-sref="menu">Go Back</a>
+</div>
+<div class="container outline">
+  <section class="float-left">
+    <input ng-repeat-start="activity in activities | orderBy: '-date'" type="button" value="{{ activity.date | date }}" ng-click="setActivity(activity)">
+    <br ng-repeat-end>
+  </section>
+  <section ng-show="mainActivity">
+    <span><strong>Calories burned:</strong> {{ mainActivity.calories }}</span>
+    <span><strong>Total minutes:</strong> {{ mainActivity.minutes }}</span>
+    <br>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Minutes</th>
+          <th>Calories</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="zone in mainActivity.zones">
+          <th style="text-align: right;">{{ zone.name }} ({{ zone.min }} - {{ zone.max }}):</th>
+          <td>{{ zone.minutes }}</td>
+          <td>{{ zone.caloriesOut }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
