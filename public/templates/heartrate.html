@@ -1,5 +1,6 @@
 <div class="header">
-  <h2>Heartrate</h2> <a ui-sref="menu">Go Back</a>
+  <a ui-sref="menu">Go Back</a><br>
+  <h2>Heartrate</h2><h3 ng-show="mainActivity"> - {{ mainActivity.date | date:'EEEE MMMM d, y' }}</h3>
 </div>
 <div class="container outline">
   <section class="float-left">
