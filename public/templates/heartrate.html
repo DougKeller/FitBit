@@ -1,9 +1,9 @@
-<div class="header">
-  <a ui-sref="menu">Go Back</a><br>
-  <h2>Heartrate</h2><h3 ng-show="mainActivity"> - {{ mainActivity.date | date:'EEEE MMMM d, y' }}</h3>
+<div class="header authorized">
+  <h1>Heartrate</h1><h3 ng-show="mainActivity"> - {{ mainActivity.date | date:'EEEE MMMM d, y' }}</h3>
 </div>
 <div class="container outline">
-  <section class="float-left">
+  <chart id="hrchart" ng-model="data"></chart>
+  <!--section class="float-left">
     <input ng-repeat-start="activity in activities | orderBy: '-date'" type="button" value="{{ activity.date | date }}" ng-click="setActivity(activity)">
     <br ng-repeat-end>
   </section>
@@ -27,5 +27,5 @@
         </tr>
       </tbody>
     </table>
-  </section>
+  </section-->
 </div>

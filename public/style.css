@@ -84,6 +84,15 @@ footer {
   color: #fff;
 }
 
+canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+chart {
+  width: 100%;
+}
+
 footer p {
   font-size: 0.8em
 }

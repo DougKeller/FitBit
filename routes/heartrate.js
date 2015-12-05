@@ -6,4 +6,9 @@ router.get('/series', function(req, res) {
 	api.get(url, req, res)
 })
 
+router.get('/intraday', function(req, res) {
+	var url = 'https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1sec/time/00:00/00:01.json'
+	api.get(url, req, res)
+})
+
 module.exports = router;

@@ -35,7 +35,7 @@ angular.module('fitbit').run(['$rootScope', '$state', 'AuthorizationService',
 
     $rootScope.$on('authorized', function() {
       if($state.current.name === 'unauthorized')
-        $state.go('menu')
+        $state.go('main')
     })
 
     $rootScope.$on('$stateChangeStart', function(_evt, toState) {
