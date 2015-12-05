@@ -19,14 +19,19 @@ angular.module('fitbit.directives').directive('chart', [function() {
               pointStrokeColor: "#fff",
               pointHighlightFill: "#fff",
               pointHighlightStroke: "rgba(220,120,120,1)",
-              data: [65, 59, 80, 81, 56, 55, 40]
+              data: [70, 80, 120, 95, 80, 60, 70]
             }
           ]
         }
       }
 
       function options() {
-        return { }
+        return {
+          scaleOverride: true,
+          scaleSteps: 10,
+          scaleStepWidth: 10,
+          scaleStartValue: 50
+        }
       }
 
       function drawData() {
