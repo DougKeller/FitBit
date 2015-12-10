@@ -1,12 +1,16 @@
-angular.module('fitbit.controllers').controller('HeartrateController', ['$scope', '$http', '$filter', 
-  function($scope, $http, $filter) {
+angular.module('fitbit.controllers').controller('HeartrateController', ['$scope', '$q', '$http', '$filter', 
+  function($scope, $q, $http, $filter) {
     $scope.data = $filter('parseData')([])
+    var cancelRequest = $q.defer()
 
     $scope.date = new Date()
 
     $scope.loadData = function() {
-      var dateStr = $filter('date')($scope.date, 'MM-dd-yyyy')
-      $http.get(Routes.heartrateIntraday + '?date=' + dateStr).then(function(response) {
+      cancelRequest.resolve()
+      cancelRequest = $q.defer()
+      
+      var dateStr = $filter('date')($scope.date, 'yyyy-MM-dd')
+      $http.get(Routes.heartrateIntraday + '?date=' + dateStr, { timeout: cancelRequest.promise }).then(function(response) {
         var data = response.data['activities-heart-intraday'].dataset
         $scope.data = $filter('parseData')(data)
       })

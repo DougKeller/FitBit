@@ -7,7 +7,8 @@ router.get('/series', function(req, res) {
 })
 
 router.get('/intraday', function(req, res) {
-	var url = 'https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1min.json'
+	var date = req.query.date
+	var url = 'https://api.fitbit.com/1/user/-/activities/heart/date/' + date + '/1d/1min.json'
 	api.get(url, req, res)
 })
 

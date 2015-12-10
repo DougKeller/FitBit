@@ -35,7 +35,17 @@ angular.module('fitbit.directives').directive('chart', ['$timeout', function($ti
 
       function drawData() {
         var ctx = document.getElementById(scope.canvasId).getContext('2d')
-        var ch = new Chart(ctx).Line(data(), options())
+
+        if(scope.ngModel.entries === 0) {
+          ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight)
+          ctx.font = "20px " + Chart.defaults.global.tooltipTitleFontFamily;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillStyle = Chart.defaults.global.scaleFontColor;
+          ctx.fillText("No data for the selected date.", ctx.canvas.clientWidth / 2, ctx.canvas.clientHeight / 2);
+        } else {
+          new Chart(ctx).Line(data(), options())
+        }
       }
 
       scope.$watchCollection(function(){
