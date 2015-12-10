@@ -1,5 +1,5 @@
 <div class="header authorized">
-  <h1>Heartrate</h1><h3>{{ date | date:'MMM d, yyyy' }} - Per Minute</h3>
+  <h1>Heartrate</h1><h3>{{ data.date }} - Per Minute</h3>
   <br><br>
   <input type="date" ng-model="date">
   <input type="button" ng-click="saveLog()" value="Download Log">

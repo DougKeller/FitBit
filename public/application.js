@@ -100,10 +100,10 @@ angular.module('fitbit').constant('States', (function() {
 
 angular.module('fitbit.controllers').controller('HeartrateController', ['$scope', '$q', '$http', '$filter', 
   function($scope, $q, $http, $filter) {
-    $scope.data = $filter('parseData')([])
+    $scope.date = new Date()
+    $scope.data = $filter('parseData')([], $scope.date)
     var cancelRequest = $q.defer()
 
-    $scope.date = new Date()
 
     $scope.loadData = function() {
       cancelRequest.resolve()
@@ -112,7 +112,7 @@ angular.module('fitbit.controllers').controller('HeartrateController', ['$scope'
       var dateStr = $filter('date')($scope.date, 'yyyy-MM-dd')
       $http.get(Routes.heartrateIntraday + '?date=' + dateStr, { timeout: cancelRequest.promise }).then(function(response) {
         var data = response.data['activities-heart-intraday'].dataset
-        $scope.data = $filter('parseData')(data)
+        $scope.data = $filter('parseData')(data, $scope.date)
       })
     }
 
@@ -187,12 +187,13 @@ angular.module('fitbit.directives').directive('chart', ['$timeout', function($ti
         var ctx = document.getElementById(scope.canvasId).getContext('2d')
 
         if(scope.ngModel.entries === 0) {
+          var date = scope.ngModel.date
           ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight)
           ctx.font = "20px " + Chart.defaults.global.tooltipTitleFontFamily;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
           ctx.fillStyle = Chart.defaults.global.scaleFontColor;
-          ctx.fillText("No data for the selected date.", ctx.canvas.clientWidth / 2, ctx.canvas.clientHeight / 2);
+          ctx.fillText("No data for " + date + ".", ctx.canvas.clientWidth / 2, ctx.canvas.clientHeight / 2);
         } else {
           new Chart(ctx).Line(data(), options())
         }
@@ -221,8 +222,8 @@ angular.module('fitbit.factories').factory('authorizationInterceptor', ['$rootSc
 		}
 	}
 }])
-angular.module('fitbit.filters').filter('parseData', [function() {
-	return function(data) {
+angular.module('fitbit.filters').filter('parseData', ['$filter', function($filter) {
+	return function(data, date) {
 		var parsed = []
 		var nextPos = 0
 		var entries = data.length
@@ -291,7 +292,8 @@ angular.module('fitbit.filters').filter('parseData', [function() {
 			logLabels: logLabels,
 			values: values,
 			length: values.length,
-			entries: entries
+			entries: entries,
+			date: $filter('date')(date, 'MMM d, yyyy')
 		}
 	}
 }])

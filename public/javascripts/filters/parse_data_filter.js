@@ -1,5 +1,5 @@
-angular.module('fitbit.filters').filter('parseData', [function() {
-	return function(data) {
+angular.module('fitbit.filters').filter('parseData', ['$filter', function($filter) {
+	return function(data, date) {
 		var parsed = []
 		var nextPos = 0
 		var entries = data.length
@@ -68,7 +68,8 @@ angular.module('fitbit.filters').filter('parseData', [function() {
 			logLabels: logLabels,
 			values: values,
 			length: values.length,
-			entries: entries
+			entries: entries,
+			date: $filter('date')(date, 'MMM d, yyyy')
 		}
 	}
 }])
