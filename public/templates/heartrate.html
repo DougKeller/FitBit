@@ -1,9 +1,9 @@
 <div class="header authorized">
   <h1>Heartrate</h1><h3>Today - Per Minute</h3>
   <br><br>
-  <input type="button" value="Download Log (NYI)">
+  <input type="button" ng-click="saveLog()" value="Download Log">
   <br><br>
 </div>
 <div class="container outline">
-  <chart id="hrchart" labels="labels" ng-model="data"></chart>
+  <chart id="hrchart" ng-model="data"></chart>
 </div>

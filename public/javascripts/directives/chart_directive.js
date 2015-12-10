@@ -1,25 +1,25 @@
-angular.module('fitbit.directives').directive('chart', [function() {
+angular.module('fitbit.directives').directive('chart', ['$timeout', function($timeout) {
   return {
     restrict: 'E',
     scope: {
-      ngModel: '=',
-      labels: '='
+      ngModel: '='
     },
     link: function(scope, element, attrs) {
+      var loaded = false
+      $timeout(function() { loaded = true })
       scope.canvasId = (attrs.id || 'chart') + 'Canvas'
 
       function data() {
+        var labels = scope.ngModel.chartLabels
+        var values = scope.ngModel.values
+
         return {
-          labels: scope.labels || ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
+          labels: labels,
           datasets: [
             {
               fillColor: "rgba(220,120,120,0.2)",
               strokeColor: "rgba(220,120,120,1)",
-              pointColor: "rgba(220,120,120,1)",
-              pointStrokeColor: "#fff",
-              pointHighlightFill: "#fff",
-              pointHighlightStroke: "rgba(220,120,120,1)",
-              data: scope.ngModel
+              data: values
             }
           ]
         }
@@ -27,9 +27,8 @@ angular.module('fitbit.directives').directive('chart', [function() {
 
       function options() {
         return {
-          pointDotRadius: 3,
-          showTooltips: true,
-          pointHitDetectionRadius : 2,
+          pointDotRadius: 0,
+          showTooltips: false,
           scaleShowVerticalLines: false
         }
       }
@@ -39,7 +38,13 @@ angular.module('fitbit.directives').directive('chart', [function() {
         var ch = new Chart(ctx).Line(data(), options())
       }
 
-      scope.$watchCollection(function(){ return scope.ngModel }, drawData)
+      scope.$watchCollection(function(){
+        return scope.ngModel
+      }, function() {
+        if(loaded) {
+          drawData()
+        }
+      })
     },
     template: '<canvas id="{{ canvasId }}"></canvas>'
   }
