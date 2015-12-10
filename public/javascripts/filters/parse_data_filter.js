@@ -2,8 +2,20 @@ angular.module('fitbit.filters').filter('parseData', [function() {
 	return function(data) {
 		var parsed = []
 		var nextPos = 0
+		var entries = data.length
 
-		function formatTime(hour, minute) {
+		function logTime(hour, minute) {
+			if(hour < 10) {
+				hour = '0' + hour
+			}
+			if(minute < 10) {
+				minute = '0' + minute
+			}
+
+			return '' + hour + ':' + minute
+		}
+
+		function chartTime(hour, minute) {
 			var e = hour < 12 ? 'am' : 'pm'
 			var mod = hour % 12
 			hour = hour || 12
@@ -19,10 +31,10 @@ angular.module('fitbit.filters').filter('parseData', [function() {
 		function addEntry(value) {
 			var hour = Math.floor(nextPos / 60)
 			var minute = nextPos - hour * 60
-			var label = formatTime(hour, minute)
-			var chartLabel = minute === 0 ? label : ''
+			var chartLabel = minute === 0 ? chartTime(hour, minute) : ''
+			var logLabel = logTime(hour, minute)
 
-			parsed.push({ chartLabel: chartLabel, label: label, value: value })
+			parsed.push({ chartLabel: chartLabel, logLabel: logLabel, value: value })
 			nextPos += 1
 		}
 
@@ -44,13 +56,19 @@ angular.module('fitbit.filters').filter('parseData', [function() {
 		var chartLabels = parsed.map(function(v) {
 			return v.chartLabel
 		})
-		var labels = parsed.map(function(v) {
-			return v.label
+		var logLabels = parsed.map(function(v) {
+			return v.logLabel
 		})
 		var values = parsed.map(function(v) {
 			return v.value
 		})
 
-		return { chartLabels: chartLabels, labels: labels, values: values, length: labels.length }
+		return {
+			chartLabels: chartLabels,
+			logLabels: logLabels,
+			values: values,
+			length: values.length,
+			entries: entries
+		}
 	}
 }])

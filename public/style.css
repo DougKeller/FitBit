@@ -178,6 +178,24 @@ input[type=button]:hover {
   cursor: pointer;
 }
 
+input[type=date] {
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  color: #333;
+  font-size: 17px;
+  min-width: 150px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+input[type=date]:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Lato', sans-serif;
   font-weight: 300;
